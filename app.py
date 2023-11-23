@@ -7,8 +7,12 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi import Form
+
 app = FastAPI(debug=True)
 templates = Jinja2Templates(directory='templates')
+
+# Mounting the static directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get('/', response_class=HTMLResponse)
 def main(request: Request):
@@ -39,4 +43,4 @@ def main(request: Request):
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000)
+    uvicorn.run(app, host="localhost", port=8000, log_level="debug",reload=True)
