@@ -8,8 +8,27 @@ body {
     background-color: blue;
 }
 
-.main {
-    flex: 1 0 auto;
+.main-container {
+    padding-top: 1em;
+    width: 60%;           /* Set the width of the main container */
+    
+    /* ++++++++ CHANGE HEIGHT +++++++++ */
+    height: auto;
+    /* ++++++++ CHANGE HEIGHT +++++++++ */
+    
+    margin: 0 auto;       /* Auto margins for horizontal centering */
+    display: flex;        /* Flex display to enable flex properties on children */
+    flex-direction: column;
+    background-color: red;
+}
+
+.content {
+    flex-grow: 1;         /* Allow the content to grow and fill the container */
+}
+
+hr {
+    border: none;
+    border-top: 0.3em dotted black;
 }
 
 .footer {

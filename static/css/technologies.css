@@ -1,0 +1,51 @@
+/* Custom dropdown arrow styles */
+.dropdown-arrow {
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+/* Rotate arrow when dropdown is open */
+.dropdown.show .dropdown-arrow {
+    transform: rotate(90deg);
+}
+
+/* Custom styles to adjust dropdown menu positioning */
+.dropdown-menu {
+    position: relative;
+    float: none;
+    display: none;
+}
+
+/* Show the dropdown menu when parent is open */
+.dropdown.show .dropdown-menu {
+    display: block;
+}
+
+/* Bootstrap override to remove default arrow */
+.btn.dropdown-toggle::after {
+    display: none; /* Removes the default arrow */
+}
+
+/* Style for the dropdown toggle buttons */
+.btn.btn-secondary.dropdown-toggle {
+    background-color: white;
+    color: black;
+}
+
+/* Remove underline from dropdown items */
+.dropdown-item {
+    text-decoration: none; /* Removes the underline from the links */
+}
+
+/* Additional force override if needed */
+.dropdown-item {
+    text-decoration: none !important; /* Force override any other styles */
+}
+
+/* Ensure the dropdown doesn't close on item click */
+.dropdown-menu {
+    pointer-events: none;
+}
+.dropdown-menu .dropdown-item {
+    pointer-events: auto;
+}

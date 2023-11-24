@@ -18,6 +18,19 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 def main(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
+@app.get('/Main', response_class=HTMLResponse)
+def main(request: Request):
+    return templates.TemplateResponse('index.html', {'request': request})
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
+
+@app.get("/Technologies", response_class=HTMLResponse)
+async def technologies(request: Request):
+    return templates.TemplateResponse("technologies.html", {"request": request})
+
+
+#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
 @app.get('/Patients',response_class=HTMLResponse)
 def main(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
@@ -38,9 +51,5 @@ def main(request: Request):
 def main(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
-
-
-
-
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=8000, log_level="debug",reload=True)
+    uvicorn.run(app, host="localhost", port=8000, log_level="debug", reload=True)
