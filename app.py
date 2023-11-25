@@ -28,6 +28,9 @@ def main(request: Request):
 async def technologies(request: Request):
     return templates.TemplateResponse("technologies.html", {"request": request})
 
+@app.get("/Schedule", response_class=HTMLResponse)
+async def floors(request: Request):
+    return templates.TemplateResponse("schedule.html", {"request": request})
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
