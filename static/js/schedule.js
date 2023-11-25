@@ -49,9 +49,25 @@ document.addEventListener('DOMContentLoaded', function () {
             $(modal).modal('show');
           }
         });
-      });
+    });
       
-  
+    // Event listener for clicking on an appointment
+    document.addEventListener('click', function (event) {
+        if (event.target.classList.contains('appointment-block')) {
+          event.stopPropagation();  // Prevent the event from bubbling up
+      
+          const patientDetails = event.target.textContent;
+          document.getElementById('patientDetails').textContent = patientDetails;
+          const patientDetailsModal = document.getElementById('patientDetailsModal');
+          $(patientDetailsModal).modal('show');
+      
+          // Configure the remove button
+          document.getElementById('removePatientButton').onclick = function() {
+            event.target.remove(); // Remove the appointment block
+            $(patientDetailsModal).modal('hide');
+          };
+        }
+    });
     // Handle form submission
     document.getElementById('addAppointmentForm').addEventListener('submit', function (event) {
         event.preventDefault();
