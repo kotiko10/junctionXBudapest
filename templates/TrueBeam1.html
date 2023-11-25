@@ -23,38 +23,32 @@
                 <thead>
                     <tr>
                         <th>Time</th>
-                        <th>Monday</th>
-                        <th>Tuesday</th>
-                        <th>Wednesday</th>
-                        <th>Thursday</th>
-                        <th>Friday</th>
-                        <th>Saturday</th>
-                        <th>Sunday</th>
+                        {% for date in week_dates %}
+                        <th>{{ date }}</th> <!-- Display the date above each day -->
+                        {% endfor %}
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Loop through timeslots -->
                     {% for hour in range(8, 22) %}
                     <tr>
-                        <td class="timeslot">{{ '%02d' % hour }}:00</td> <!-- Add class "timeslot" -->
-                        <!-- Loop through days -->
+                        <td class="timeslot">{{ '%02d' % hour }}:00</td>
                         {% for day in range(7) %}
-                        <!-- Inside your existing for loop for each `.day-slot` cell -->
                         <td class="day-slot" data-hour="{{ hour }}" data-day="{{ day }}">
-                            <div class="appointment-container"></div> <!-- Container to hold appointments -->
-                        </td>
-
-                            <!-- Content for each day -->
-                            {% if day < 5 %}
-                                <!-- Weekday content goes here -->
-                            {% else %}
-                                <!-- Weekend content (if any) goes here -->
-                            {% endif %}
+                            <div class="appointment-container">
+                                {% for appointment in appointments %}
+                                {% if appointment.start.split(':')[0]|int == hour and appointment.day == day %}
+                                <div class="appointment-block" style="height: {{ appointment.duration }}px;">
+                                    {{ appointment.start }} - {{ appointment.end }}: {{ appointment.name }}
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
                         </td>
                         {% endfor %}
                     </tr>
                     {% endfor %}
                 </tbody>
+                
             </table>
             <!-- Add this modal structure within your body tag, after the timetable -->
             <div class="modal" id="addPatientModal">

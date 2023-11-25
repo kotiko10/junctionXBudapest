@@ -19,8 +19,19 @@
             <hr>
             <h2 class="text-center">Weekly Timetable</h2>
             <!-- <button id="addPatientButton" class="btn btn-primary">Add Patient</button> -->
+            <div class="week-navigation">
+                <a href="?week_offset={{ week_offset-1 }}">&lt; Previous Week</a>
+                <a href="?week_offset={{ week_offset+1 }}">Next Week &gt;</a>
+            </div>
             <table class="table table-bordered">
                 <thead>
+                    <tr>
+                        <th></th>
+                        <!-- Loop through week_dates and display them -->
+                        {% for date in week_dates %}
+                        <th>{{ date }}</th>
+                        {% endfor %}
+                    </tr>
                     <tr>
                         <th>Time</th>
                         <th>Monday</th>
@@ -32,6 +43,8 @@
                         <th>Sunday</th>
                     </tr>
                 </thead>
+                <!-- ... -->
+
                 <tbody>
                     <!-- Loop through timeslots -->
                     {% for hour in range(8, 22) %}
@@ -66,8 +79,10 @@
                         </div>
                         <div class="modal-body">
 
-                            <form id="addAppointmentForm">
+                            <form id="addAppointmentForm" action="/add_appointment" method="post">
                                 <!-- TIME SLOT -->
+                                <input type="hidden" name="machine_name" value="VitalBeam1">
+
                                 <div class="form-group">
                                     <label for="appointmentHour">Hour:</label>
                                     <select class="form-control" id="appointmentHour" name="appointmentHour" required>
