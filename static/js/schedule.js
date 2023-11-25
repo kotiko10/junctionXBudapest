@@ -39,6 +39,15 @@ function isTimeSlotAvailable(day, startTime, duration) {
   return true; // No overlap, time slot is available
 }  
 
+function getWeekOffsetFromURL() {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const weekOffset = urlParams.get('week_offset');
+
+  // Convert to number and return. If not available, return 0 (default).
+  return weekOffset ? parseInt(weekOffset, 10) : 0;
+}
+
 document.addEventListener('DOMContentLoaded', function () {
   // Handle time slot click
   document.querySelectorAll('.day-slot').forEach(function (cell) {
@@ -98,10 +107,17 @@ document.addEventListener('DOMContentLoaded', function () {
       // 
       var patientName = this.elements['patientName'].value;
       var patientId = parseInt(this.elements['patientId'].value, 10); // Assuming you have a field for patientId
-      var startTime = hour + ':' + minute;
       var endTime = calculateEndTime(startTime, duration); // You'll need to write this function
       var currentDate = new Date().toISOString().slice(0, 10); // Example current date in YYYY-MM-DD format
   
+      var weekOffset = getWeekOffsetFromURL();
+      var day = this.dataset.day; // Make sure this is getting the correct day of the week
+
+      
+
+      // var appointmentDate = calculateAppointmentDate(day, weekOffset);
+  
+
       // PREPATING JSON DATA
       var appointmentDat = {
         patient_id: patientId,

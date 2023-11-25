@@ -8,20 +8,12 @@ from fastapi import HTTPException
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi import Form
-
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-# Dummy Data
 from pydantic import BaseModel
 from datetime import datetime, time, timedelta
 import json
 from pathlib import Path
-
 from fastapi.middleware.cors import CORSMiddleware
-
 from static.js.patient import read_json_file, write_json_file
-
-
-# ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 app = FastAPI(debug=True)
 templates = Jinja2Templates(directory='templates')
@@ -216,26 +208,6 @@ async def floors(request: Request):
     return templates.TemplateResponse("Unique.html", {"request": request})
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-@app.get('/Patients',response_class=HTMLResponse)
-def main(request: Request):
-    return templates.TemplateResponse('index.html', {'request': request})
-
-@app.get('/Floor_reservation',response_class=HTMLResponse)
-def main(request: Request):
-    return templates.TemplateResponse('index.html', {'request': request})
-
-@app.get('/Treatment_Reservation',response_class=HTMLResponse)
-def main(request: Request):
-    return templates.TemplateResponse('index.html', {'request': request})
-
-@app.get('/Patient_Stats',response_class=HTMLResponse)
-def main(request: Request):
-    return templates.TemplateResponse('index.html', {'request': request})
-
-@app.get('/Machine_Stats',response_class=HTMLResponse)
-def main(request: Request):
-    return templates.TemplateResponse('index.html', {'request': request})
 
 if __name__ == "__main__":
     uvicorn.run(app, host="localhost", port=8000, log_level="debug", reload=True)
