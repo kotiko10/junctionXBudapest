@@ -99,6 +99,7 @@ document.addEventListener('DOMContentLoaded', function () {
       appointmentBlock.style.top = topOffset + 'px';
       appointmentBlock.style.height = blockHeight + 'px';
       appointmentBlock.textContent = time + ' - ' + patientName;
+      
       const [hours, minutes] = time.split(':').map(Number);
       var selectedCell = document.querySelector(`.day-slot[data-hour="${hours}"][data-day="${this.dataset.day}"] .appointment-container`);
       selectedCell.appendChild(appointmentBlock);

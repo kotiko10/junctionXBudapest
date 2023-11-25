@@ -5,7 +5,7 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
-    background-color: blue;
+    /* background-color: blue; */
 }
 
 .main-container {
@@ -19,7 +19,7 @@ body {
     margin: 0 auto;       /* Auto margins for horizontal centering */
     display: flex;        /* Flex display to enable flex properties on children */
     flex-direction: column;
-    background-color: red;
+    /* background-color: red; */
 }
 
 .content {

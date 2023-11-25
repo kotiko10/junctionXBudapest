@@ -16,6 +16,14 @@
   padding: 0rem; /* Padding within cells */
   border: 1px solid #dee2e6; /* Border for cells */
 }
+
+.timeslot {
+  display: flex;
+  justify-content: center; /* Center the content horizontally */
+  align-items: center; /* Center the content vertically */
+  height: 60px; /* Adjust the height as needed */
+}
+
 .appointment-container {
   position: relative;
   min-height: 60px; /* Each slot should be at least one hour high */
@@ -34,3 +42,16 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Optional: adds depth to the blocks */
   border: 1px solid #ccc; /* Optional: adds definition to the blocks */
 }
+
+/* .close-appointment {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ff4545;
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 0 5px;
+  border-radius: 0;
+  user-select: none;
+} */

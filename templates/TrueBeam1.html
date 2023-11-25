@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100%;">
+<head>
+    <!-- Head contents like meta tags, title, etc. -->
+    {% include 'header.html' %}
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/schedule.css">
+    <!-- Include jQuery first, then Bootstrap JS -->
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+
+    <script src="/static/js/schedule.js"></script> -->
+
+</head>
+<body class="d-flex flex-column h-100">
+    <main class="flex-shrink-0">
+        <div class="container mt-3">
+            <h1>TrueBeam 1</h1>
+            <hr>
+            <h2 class="text-center">Weekly Timetable</h2>
+            <!-- <button id="addPatientButton" class="btn btn-primary">Add Patient</button> -->
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Time</th>
+                        <th>Monday</th>
+                        <th>Tuesday</th>
+                        <th>Wednesday</th>
+                        <th>Thursday</th>
+                        <th>Friday</th>
+                        <th>Saturday</th>
+                        <th>Sunday</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop through timeslots -->
+                    {% for hour in range(8, 22) %}
+                    <tr>
+                        <td class="timeslot">{{ '%02d' % hour }}:00</td> <!-- Add class "timeslot" -->
+                        <!-- Loop through days -->
+                        {% for day in range(7) %}
+                        <!-- Inside your existing for loop for each `.day-slot` cell -->
+                        <td class="day-slot" data-hour="{{ hour }}" data-day="{{ day }}">
+                            <div class="appointment-container"></div> <!-- Container to hold appointments -->
+                        </td>
+
+                            <!-- Content for each day -->
+                            {% if day < 5 %}
+                                <!-- Weekday content goes here -->
+                            {% else %}
+                                <!-- Weekend content (if any) goes here -->
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <!-- Add this modal structure within your body tag, after the timetable -->
+            <div class="modal" id="addPatientModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Add Patient Appointment</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form id="addAppointmentForm">
+                                <!-- TIME SLOT -->
+                                <div class="form-group">
+                                    <label for="appointmentHour">Hour:</label>
+                                    <select class="form-control" id="appointmentHour" name="appointmentHour" required>
+                                      {% for hour in range(8, 22) %}
+                                      <option value="{{ '%02d' % hour }}">{{ '%02d' % hour }}</option>
+                                      {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentMinute">Minute:</label>
+                                    <select class="form-control" id="appointmentMinute" name="appointmentMinute" required>
+                                      {% for minute in range(0, 60) %}
+                                      <option value="{{ '%02d' % minute }}">{{ '%02d' % minute }}</option>
+                                      {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="patientName">Patient Name:</label>
+                                    <input type="text" class="form-control" id="patientName" name="patientName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentDuration">Duration (minutes):</label>
+                                    <input type="number" class="form-control" id="appointmentDuration" name="appointmentDuration" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add Appointment</button>
+                            </form>
+                            
+                            <div class="modal" id="patientDetailsModal">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title">Patient Details</h5>
+                                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <p id="patientDetails"></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button id="removePatientButton" class="btn btn-danger">Remove Patient</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% include 'footer.html' %}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/schedule.js"></script>
+</body>
+
+</html>

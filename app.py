@@ -32,6 +32,27 @@ async def technologies(request: Request):
 async def floors(request: Request):
     return templates.TemplateResponse("schedule.html", {"request": request})
 
+@app.get("/VitalBeam1", response_class=HTMLResponse)
+async def floors(request: Request):
+    return templates.TemplateResponse("VitalBeam1.html", {"request": request})
+
+@app.get("/VitalBeam2", response_class=HTMLResponse)
+async def floors(request: Request):
+    return templates.TemplateResponse("VitalBeam2.html", {"request": request})
+
+@app.get("/TrueBeam1", response_class=HTMLResponse)
+async def floors(request: Request):
+    return templates.TemplateResponse("TrueBeam1.html", {"request": request})
+
+@app.get("/TrueBeam2", response_class=HTMLResponse)
+async def floors(request: Request):
+    return templates.TemplateResponse("TrueBeam2.html", {"request": request})
+
+@app.get("/Unique", response_class=HTMLResponse)
+async def floors(request: Request):
+    return templates.TemplateResponse("Unique.html", {"request": request})
+
+
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 @app.get('/Patients',response_class=HTMLResponse)
