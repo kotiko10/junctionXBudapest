@@ -4,12 +4,12 @@ function calculateTopOffset(startTime) {
     // Calculate how many minutes past 8:00 the start time is
     const totalMinutesFromStart = (hours - 8) * 60 + minutes;
     return totalMinutesFromStart * 1; // Assuming 1 pixel per minute
-  }
+}
   
-  // Calculate the height of the appointment block in pixels
-  function calculateHeight(duration) {
+// Calculate the height of the appointment block in pixels
+function calculateHeight(duration) {
     return duration * 1; // Assuming 1 pixel per minute
-  }
+}
   // Calculate the top offset in pixels
 // function calculateTopOffset(startTime) {
 //     const [hours, minutes] = startTime.split(':').map(Number);
@@ -17,11 +17,11 @@ function calculateTopOffset(startTime) {
 //   }
   
   // Calculate the height of the appointment block in pixels
-  function calculateHeight(duration) {
+function calculateHeight(duration) {
     return duration * 1; // 1 pixel per minute
-  }
+}
   
-  document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
     // Handle time slot click
     document.querySelectorAll('.day-slot').forEach(function (cell) {
         cell.addEventListener('click', function () {
@@ -44,23 +44,26 @@ function calculateTopOffset(startTime) {
     document.getElementById('addAppointmentForm').addEventListener('submit', function (event) {
         event.preventDefault();
         var time = this.elements['appointmentTime'].value;
+        console.log(time);
         var patientName = this.elements['patientName'].value;
         var duration = parseInt(this.elements['appointmentDuration'].value, 10);
-        var topOffset = calculateTopOffset(time);
+        var topOffset = 0;
     
         var blockHeight = calculateHeight(duration);
     
         var appointmentBlock = document.createElement('div');
         appointmentBlock.className = 'appointment-block';
         appointmentBlock.style.top = topOffset + 'px';
+        console.log(topOffset);
         appointmentBlock.style.height = blockHeight + 'px';
         appointmentBlock.textContent = time + ' - ' + patientName;
-    
-        var selectedCell = document.querySelector(`.day-slot[data-hour="${this.dataset.hour}"][data-day="${this.dataset.day}"] .appointment-container`);
+        console.log(this.dataset.hour);
+        const [hours, minutes] = time.split(':').map(Number);
+        var selectedCell = document.querySelector(`.day-slot[data-hour="${hours}"][data-day="${this.dataset.day}"] .appointment-container`);
         selectedCell.appendChild(appointmentBlock);
     
         $('#addPatientModal').modal('hide');
         this.reset();
     });
-  });
+});
   
