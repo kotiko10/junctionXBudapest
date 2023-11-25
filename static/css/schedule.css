@@ -1,37 +1,36 @@
 /* Styles for the timetable */
 .table {
-    width: 100%;
-    table-layout: fixed; /* Helps maintain uniform column widths */
-    text-align: left; /* Align text to the left */
+  width: 100%;
+  table-layout: fixed; /* Helps maintain uniform column widths */
+  text-align: left; /* Align text to the left */
 }
 
 .table th {
-    background-color: #f8f9fa; /* Light grey background for headers */
-    text-align: center; /* Center the text in header cells */
+  background-color: #f8f9fa; /* Light grey background for headers */
+  text-align: center; /* Center the text in header cells */
 }
 
 .table td {
-    vertical-align: top; /* Align content to the top of the cell */
-    height: 60px; /* Fixed height for timeslot cells */
-    padding: 0rem; /* Padding within cells */
-    border: 1px solid #dee2e6; /* Border for cells */
+  vertical-align: top; /* Align content to the top of the cell */
+  height: 60px; /* Fixed height for timeslot cells */
+  padding: 0rem; /* Padding within cells */
+  border: 1px solid #dee2e6; /* Border for cells */
 }
 .appointment-container {
-    position: relative;
-    min-height: 60px; /* Each slot should be at least one hour high */
-    overflow: visible; /* Allow appointments to overlap visually */
-  }
-  
-  .appointment-block {
-    position: absolute;
-    left: 0;
-    right: 0;
-    background-color: #e9ecef;
-    color: black;
-    /* padding: 2px; */
-    border-radius: 4px;
-    font-size: 0.8em;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Optional: adds depth to the blocks */
-    border: 1px solid #ccc; /* Optional: adds definition to the blocks */
-  }
-  
+  position: relative;
+  min-height: 60px; /* Each slot should be at least one hour high */
+  overflow: visible; /* Allow appointments to overlap visually */
+}
+
+.appointment-block {
+  position: absolute;
+  left: 0;
+  right: 0;
+  background-color: #e9ecef;
+  color: black;
+  /* padding: 2px; */
+  border-radius: 4px;
+  font-size: 0.8em;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* Optional: adds depth to the blocks */
+  border: 1px solid #ccc; /* Optional: adds definition to the blocks */
+}

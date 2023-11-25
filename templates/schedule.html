@@ -65,14 +65,24 @@
                         <div class="modal-body">
 
                             <form id="addAppointmentForm">
+                                <!-- TIME SLOT -->
                                 <div class="form-group">
-                                    <label for="appointmentTime">Time Slot:</label>
-                                    <select class="form-control" id="appointmentTime" name="appointmentTime" required>
-                                        {% for hour in range(8, 22) %}
-                                        <option value="{{ '%02d' % hour }}:00">{{ '%02d' % hour }}:00</option>
-                                        {% endfor %}
+                                    <label for="appointmentHour">Hour:</label>
+                                    <select class="form-control" id="appointmentHour" name="appointmentHour" required>
+                                      {% for hour in range(8, 22) %}
+                                      <option value="{{ '%02d' % hour }}">{{ '%02d' % hour }}</option>
+                                      {% endfor %}
                                     </select>
                                 </div>
+                                <div class="form-group">
+                                    <label for="appointmentMinute">Minute:</label>
+                                    <select class="form-control" id="appointmentMinute" name="appointmentMinute" required>
+                                      {% for minute in range(0, 60) %}
+                                      <option value="{{ '%02d' % minute }}">{{ '%02d' % minute }}</option>
+                                      {% endfor %}
+                                    </select>
+                                </div>
+                                
                                 <div class="form-group">
                                     <label for="patientName">Patient Name:</label>
                                     <input type="text" class="form-control" id="patientName" name="patientName" required>
