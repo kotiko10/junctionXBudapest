@@ -11,6 +11,12 @@ function calculateHeight(duration) {
   return duration * 1; // Assuming 1 pixel per minute
 }
 
+function calculateEndTime(startTime, duration) {
+  var [hour, minute] = startTime.split(':').map(Number);
+  var endTime = new Date(0, 0, 0, hour, minute + duration);
+  return endTime.getHours().toString().padStart(2, '0') + ':' + endTime.getMinutes().toString().padStart(2, '0');
+}
+
 function isTimeSlotAvailable(day, startTime, duration) {
   const [startHours, startMinutes] = startTime.split(':').map(Number);
   const startTotalMinutes = startHours * 60 + startMinutes;
@@ -76,11 +82,54 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('addAppointmentForm').addEventListener('submit', function (event) {
       event.preventDefault();
 
+      
       var hour = this.elements['appointmentHour'].value;
       var minute = this.elements['appointmentMinute'].value;
       var time = hour + ':' + minute; // Concatenate hour and minute
       var startTime = hour + ':' + minute; // Concatenate hour and minute
       var topOffset = calculateTopOffset(startTime);
+
+
+
+      event.preventDefault();
+
+      var duration = parseInt(this.elements['appointmentDuration'].value, 10);
+  
+      // 
+      var patientName = this.elements['patientName'].value;
+      var patientId = parseInt(this.elements['patientId'].value, 10); // Assuming you have a field for patientId
+      var startTime = hour + ':' + minute;
+      var endTime = calculateEndTime(startTime, duration); // You'll need to write this function
+      var currentDate = new Date().toISOString().slice(0, 10); // Example current date in YYYY-MM-DD format
+  
+      // PREPATING JSON DATA
+      var appointmentDat = {
+        patient_id: patientId,
+        patient_name: patientName,
+        start_time: startTime,
+        end_time: endTime,
+        date: currentDate,
+        machine_name: 'VitalBeam1'
+    };
+
+      // 
+      // Send this data to your FastAPI backend
+      fetch('/add_appointment', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(appointmentDat)
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log('Success:', data);
+          // Additional actions upon successful submission
+      })
+      .catch((error) => {
+          console.error('Error:', error);
+      });
+
 
       var patientName = this.elements['patientName'].value;
       var duration = parseInt(this.elements['appointmentDuration'].value, 10);

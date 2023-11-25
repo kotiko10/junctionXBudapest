@@ -54,7 +54,16 @@
                         {% for day in range(7) %}
                         <!-- Inside your existing for loop for each `.day-slot` cell -->
                         <td class="day-slot" data-hour="{{ hour }}" data-day="{{ day }}">
-                            <div class="appointment-container"></div> <!-- Container to hold appointments -->
+                            <div class="appointment-container">
+                                <!-- Loop through appointments for the specific day and hour -->
+                                {% for appt in appointments %}
+                                    {% if appt.hour == hour and day == appt.day %}
+                                        <div class="appointment-block" style="height: {{ appt.duration }}px;">
+                                            {{ '%02d' % appt.hour }}:{{ '%02d' % appt.minute }} - {{ appt.name }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         </td>
 
                             <!-- Content for each day -->
@@ -107,6 +116,10 @@
                                 <div class="form-group">
                                     <label for="appointmentDuration">Duration (minutes):</label>
                                     <input type="number" class="form-control" id="appointmentDuration" name="appointmentDuration" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="patientId">Patient ID:</label>
+                                    <input type="number" class="form-control" id="patientId" name="patientId" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Add Appointment</button>
                             </form>

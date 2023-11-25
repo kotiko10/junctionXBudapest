@@ -1,0 +1,18 @@
+[
+  {
+    "patient_id": 11,
+    "patient_name": "kotiko",
+    "start_time": "08:00",
+    "end_time": "09:09",
+    "date": "2023-11-25",
+    "machine_name": "VitalBeam1"
+  },
+  {
+    "patient_id": 11,
+    "patient_name": "kotiko",
+    "start_time": "10:00",
+    "end_time": "11:31",
+    "date": "2023-11-25",
+    "machine_name": "VitalBeam1"
+  }
+]
