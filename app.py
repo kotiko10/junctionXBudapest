@@ -1,8 +1,10 @@
 import uvicorn
 import subprocess
 from fastapi import FastAPI, Request
+import subprocess
 import numpy as np
 import csv
+import os
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi import HTTPException
 from fastapi.templating import Jinja2Templates
@@ -14,9 +16,32 @@ import json
 from pathlib import Path
 from fastapi.middleware.cors import CORSMiddleware
 from static.js.patient import read_json_file, write_json_file
+from typing import List
+from fastapi import Query
 
 app = FastAPI(debug=True)
 templates = Jinja2Templates(directory='templates')
+
+
+# Assuming AppointmentKey model is already defined as:
+class AppointmentKey(BaseModel):
+    start_time: str
+    date: str
+    machine_name: str
+
+# Function to read appointments from JSON file
+def read_appointments_from_file(file_path: str) -> List[dict]:
+    try:
+        with open(file_path, "r") as file:
+            return json.load(file)
+    except FileNotFoundError:
+        return []
+
+# Function to write appointments to JSON file
+def write_appointments_to_file(file_path: str, appointments: List[dict]):
+    with open(file_path, "w") as file:
+        json.dump(appointments, file, indent=4)
+
 
 # Mounting the static directory
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -35,6 +60,8 @@ def main(request: Request):
 @app.get('/Main', response_class=HTMLResponse)
 def main(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
+
+
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 
 # Define a Pydantic model for appointment data
@@ -79,7 +106,43 @@ def get_week_dates(offset=0):
     return [date.strftime("%m/%d/%Y") for date in week_dates]
 
 
-# Endpoint to handle the appointment form submission
+# FastAPI endpoint to remove an appointment
+
+@app.get("/get_appointments_for_week")
+async def get_appointments_for_week(week_offset: int = Query(0)):
+    # Calculate the dates for the given week
+    week_dates = get_week_dates(week_offset)
+
+    # Read the appointments from JSON file
+    try:
+        with open(appointments_file_path, "r") as file:
+            appointments = json.load(file)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {"appointments": []}
+
+    # Filter appointments for the week
+    week_appointments = [appointment for appointment in appointments if appointment["date"] in week_dates]
+
+    return {"appointments": week_appointments}
+
+
+@app.delete("/remove_appointment")
+async def remove_appointment(appointment_key: AppointmentKey):
+    # Read existing appointments
+    appointments = read_appointments_from_file(appointments_file_path)
+    print(appointment_key)
+    # Filter out the matching appointment
+    appointments = [appt for appt in appointments if not (appt['date'] == appointment_key.date and appt['start_time'] == appointment_key.start_time)]
+    #print(appointments)
+
+    os.remove(appointments_file_path)
+    
+
+    # Write the updated list back to the file
+    write_appointments_to_file(appointments_file_path, appointments)
+
+    return {"message": "Appointment removed successfully"}
+
 @app.post("/add_appointment")
 async def add_appointment(request: Request):
     data = await request.json()
@@ -128,22 +191,6 @@ async def add_appointment(request: Request):
 
     return JSONResponse(content={"message": "Appointment added successfully"}, status_code=200)
 
-
-# Endpoint to remove an appointment
-@app.post("/VitalBeam1/remove-appointment")
-async def remove_appointment(request: Request, start: str = Form(...), day: int = Form(...)):
-    # Load existing appointments
-    with open('static/data/vital1.json', 'r') as file:
-        appointments = json.load(file)
-
-    # Find and remove the appointment
-    appointments = [appointment for appointment in appointments if not (appointment["start"] == start and appointment["day"] == day)]
-
-    # Save the updated appointments
-    with open('static/data/vital1.json', 'w') as file:
-        json.dump(appointments, file)
-
-    return {"message": "Appointment removed successfully"}
 
 # Update the existing endpoint to read the appointments
 @app.get("/VitalBeam1", response_class=HTMLResponse)
