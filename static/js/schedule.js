@@ -27,12 +27,11 @@ function calculateAppointmentDate(dayOfWeek, weekOffset) {
   var daysToAdd = ((weekOffset) * 7)+parseInt(dayOfWeek)-d;
  //console.log(currentDate.getDay());
  //console.log(daysToAdd);  
- console.log(currentDate.setDate(currentDate.getDate()+daysToAdd));
 // Add the days to the current date
 
-
+currentDate.setDate(currentDate.getDate()+daysToAdd);
   // Format the date as MM/DD/YYYY
-  return (currentDate.getMonth() + 1).toString().padStart(2, '0') + '/' + currentDate.getDate().toString().padStart(2, '0') + '/' + currentDate.getFullYear();
+  return  (parseInt(currentDate.getMonth())+1)+'/'+currentDate.getDate()+'/'+currentDate.getFullYear();
 }
 
 function isTimeSlotAvailable(day, startTime, duration) {
@@ -132,9 +131,6 @@ document.addEventListener('DOMContentLoaded', function () {
       var day = this.dataset.day; // Make sure this is getting the correct day of the week
       
 
-
-
-      // var appointmentDate = calculateAppointmentDate(day, weekOffset);
       console.log(calculateAppointmentDate(day, weekOffset));
 
       // PREPATING JSON DATA
@@ -143,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
         patient_name: patientName,
         start_time: startTime,
         end_time: endTime,
-        date: currentDate,
+        date: calculateAppointmentDate(day, weekOffset),
         machine_name: 'VitalBeam1'
     };
 
