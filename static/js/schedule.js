@@ -17,6 +17,24 @@ function calculateEndTime(startTime, duration) {
   return endTime.getHours().toString().padStart(2, '0') + ':' + endTime.getMinutes().toString().padStart(2, '0');
 }
 
+function calculateAppointmentDate(dayOfWeek, weekOffset) {
+  // Create a new date object for the current date
+  var currentDate = new Date();
+
+  // Calculate the number of days to add
+  console.log(dayOfWeek);
+  var d=(currentDate.getDay()+6)%7;
+  var daysToAdd = ((weekOffset) * 7)+parseInt(dayOfWeek)-d;
+ //console.log(currentDate.getDay());
+ //console.log(daysToAdd);  
+ console.log(currentDate.setDate(currentDate.getDate()+daysToAdd));
+// Add the days to the current date
+
+
+  // Format the date as MM/DD/YYYY
+  return (currentDate.getMonth() + 1).toString().padStart(2, '0') + '/' + currentDate.getDate().toString().padStart(2, '0') + '/' + currentDate.getFullYear();
+}
+
 function isTimeSlotAvailable(day, startTime, duration) {
   const [startHours, startMinutes] = startTime.split(':').map(Number);
   const startTotalMinutes = startHours * 60 + startMinutes;
@@ -112,11 +130,12 @@ document.addEventListener('DOMContentLoaded', function () {
   
       var weekOffset = getWeekOffsetFromURL();
       var day = this.dataset.day; // Make sure this is getting the correct day of the week
-
       
 
+
+
       // var appointmentDate = calculateAppointmentDate(day, weekOffset);
-  
+      console.log(calculateAppointmentDate(day, weekOffset));
 
       // PREPATING JSON DATA
       var appointmentDat = {
