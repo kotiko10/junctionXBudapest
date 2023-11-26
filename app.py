@@ -220,40 +220,104 @@ async def vitalbeam1(request: Request, week_offset: int = 0):
 # ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 @app.get("/VitalBeam2", response_class=HTMLResponse)
-async def floors(request: Request):
-    return templates.TemplateResponse("VitalBeam2.html", {"request": request})
+async def vitalbeam2(request: Request, week_offset: int = 0):
+    week_dates = get_week_dates(week_offset)
+
+    # Load appointments from file
+    try:
+        with open('static/data/vital2.json', 'r') as file:
+            appointments = json.load(file)
+    except FileNotFoundError:
+        # If the file doesn't exist, initialize it as an empty list
+        appointments = []
+        with open('static/data/vital1.json', 'w') as file:
+            json.dump(appointments, file)
+
+    # Filter appointments for the current week
+    appointments_for_week = [appointment for appointment in appointments if appointment["day"] == week_offset]
+
+    # Return the template response
+    return templates.TemplateResponse("VitalBeam1.html", {
+        "request": request,
+        "appointments": appointments_for_week,
+        "week_dates": week_dates,
+        "week_offset": week_offset
+    })
 
 @app.get("/TrueBeam1", response_class=HTMLResponse)
-async def truebeam1(request: Request):
-    # Load JSON data
-    json_path = Path(__file__).parent / 'static' / 'data' / 'people.json'
-    with open(json_path, 'r') as file:
-        people_data = json.load(file)
+async def truebeam1(request: Request, week_offset: int = 0):
+    week_dates = get_week_dates(week_offset)
 
-    # Convert time to minutes for height calculation and filter for Monday
-    appointments = []
-    for person in people_data:
-        start_time = datetime.strptime(person["start"], "%H:%M")
-        end_time = datetime.strptime(person["end"], "%H:%M")
-        duration = int((end_time - start_time).total_seconds() / 60)
-        appointments.append({
-            "start": person["start"],
-            "end": person["end"],
-            "name": person["name"],
-            "duration": duration,
-            "day": 0  # Assuming Monday is day 0
-        })
+    # Load appointments from file
+    try:
+        with open('static/data/vital2.json', 'r') as file:
+            appointments = json.load(file)
+    except FileNotFoundError:
+        # If the file doesn't exist, initialize it as an empty list
+        appointments = []
+        with open('static/data/vital1.json', 'w') as file:
+            json.dump(appointments, file)
 
-    return templates.TemplateResponse("TrueBeam1.html", {"request": request, "appointments": appointments})
+    # Filter appointments for the current week
+    appointments_for_week = [appointment for appointment in appointments if appointment["day"] == week_offset]
+
+    # Return the template response
+    return templates.TemplateResponse("TrueBeam1.html", {
+        "request": request,
+        "appointments": appointments_for_week,
+        "week_dates": week_dates,
+        "week_offset": week_offset
+    })
 
 @app.get("/TrueBeam2", response_class=HTMLResponse)
-async def floors(request: Request):
-    return templates.TemplateResponse("TrueBeam2.html", {"request": request})
+async def truebeam2(request: Request, week_offset: int = 0):
+    week_dates = get_week_dates(week_offset)
+
+    # Load appointments from file
+    try:
+        with open('static/data/vital2.json', 'r') as file:
+            appointments = json.load(file)
+    except FileNotFoundError:
+        # If the file doesn't exist, initialize it as an empty list
+        appointments = []
+        with open('static/data/vital1.json', 'w') as file:
+            json.dump(appointments, file)
+
+    # Filter appointments for the current week
+    appointments_for_week = [appointment for appointment in appointments if appointment["day"] == week_offset]
+
+    # Return the template response
+    return templates.TemplateResponse("TrueBeam2.html", {
+        "request": request,
+        "appointments": appointments_for_week,
+        "week_dates": week_dates,
+        "week_offset": week_offset
+    })
 
 @app.get("/Unique", response_class=HTMLResponse)
-async def floors(request: Request):
-    return templates.TemplateResponse("Unique.html", {"request": request})
+async def unique(request: Request, week_offset: int = 0):
+    week_dates = get_week_dates(week_offset)
 
+    # Load appointments from file
+    try:
+        with open('static/data/unique.json', 'r') as file:
+            appointments = json.load(file)
+    except FileNotFoundError:
+        # If the file doesn't exist, initialize it as an empty list
+        appointments = []
+        with open('static/data/vital1.json', 'w') as file:
+            json.dump(appointments, file)
+
+    # Filter appointments for the current week
+    appointments_for_week = [appointment for appointment in appointments if appointment["day"] == week_offset]
+
+    # Return the template response
+    return templates.TemplateResponse("Unique.html", {
+        "request": request,
+        "appointments": appointments_for_week,
+        "week_dates": week_dates,
+        "week_offset": week_offset
+    })
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 if __name__ == "__main__":

@@ -19,8 +19,21 @@
             <hr>
             <h2 class="text-center">Weekly Timetable</h2>
             <!-- <button id="addPatientButton" class="btn btn-primary">Add Patient</button> -->
+            <div class="week-navigation">
+                <!-- <a onclick="loadAppointmentsForWeek()" href="?week_offset={{ week_offset-1 }}">&lt; Previous Week</a>
+                <a href="?week_offset={{ week_offset+1 }}">Next Week &gt;</a> -->
+                <button id="prevWeekButton">&lt; Previous Week</button>
+                <button id="nextWeekButton">Next Week &gt;</button>
+            </div>
             <table class="table table-bordered">
                 <thead>
+                    <tr>
+                        <th></th>
+                        <!-- Loop through week_dates and display them -->
+                        {% for date in week_dates %}
+                        <th>{{ date }}</th>
+                        {% endfor %}
+                    </tr>
                     <tr>
                         <th>Time</th>
                         <th>Monday</th>
@@ -32,6 +45,7 @@
                         <th>Sunday</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     <!-- Loop through timeslots -->
                     {% for hour in range(8, 22) %}
@@ -41,7 +55,16 @@
                         {% for day in range(7) %}
                         <!-- Inside your existing for loop for each `.day-slot` cell -->
                         <td class="day-slot" data-hour="{{ hour }}" data-day="{{ day }}">
-                            <div class="appointment-container"></div> <!-- Container to hold appointments -->
+                            <div class="appointment-container">
+                                <!-- Loop through appointments for the specific day and hour -->
+                                {% for appt in appointments %}
+                                    {% if appt.hour == hour and day == appt.day %}
+                                        <div class="appointment-block" style="height: {{ appt.duration }}px;">
+                                            {{ '%02d' % appt.hour }}:{{ '%02d' % appt.minute }} - {{ appt.name }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
                         </td>
 
                             <!-- Content for each day -->
@@ -66,8 +89,10 @@
                         </div>
                         <div class="modal-body">
 
-                            <form id="addAppointmentForm">
+                            <form id="addAppointmentForm" action="/add_appointment" method="post">
                                 <!-- TIME SLOT -->
+                                <input type="hidden" name="machine_name" value="VitalBeam2">
+
                                 <div class="form-group">
                                     <label for="appointmentHour">Hour:</label>
                                     <select class="form-control" id="appointmentHour" name="appointmentHour" required>
@@ -92,6 +117,10 @@
                                 <div class="form-group">
                                     <label for="appointmentDuration">Duration (minutes):</label>
                                     <input type="number" class="form-control" id="appointmentDuration" name="appointmentDuration" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="patientId">Patient ID:</label>
+                                    <input type="number" class="form-control" id="patientId" name="patientId" required>
                                 </div>
                                 <button type="submit" class="btn btn-primary">Add Appointment</button>
                             </form>
@@ -122,7 +151,7 @@
     {% include 'footer.html' %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/js/schedule.js"></script>
+    <script src="/static/js/VitalBeam2.js"></script>
 </body>
 
 </html>
